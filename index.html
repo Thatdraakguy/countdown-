@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Year Countdown</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+                  url('new-year-3.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      text-align: center;
+    }
+
+    .countdown-container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      max-width: 700px;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 2px #001;
+    }
+
+    #countdown {
+      display: flex;
+      justify-content: space-around;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 10px;
+    }
+
+    .time {
+      text-align: center;
+    }
+
+    .time span {
+      font-size: 3rem;
+      font-weight: bold;
+      display: block;
+      color: #ffde59;
+      text-shadow: 2px 2px 5px #000;
+    }
+
+    .time p {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #fff;
+    }
+
+    /* Style to ensure the video is fully visible and takes up the full space */
+    video {
+      width: 100%;
+      height: auto;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+      display: none; /* Initially hide the video */
+      margin-top: 20px;
+    }
+
+    /* Button Style */
+    .start-button {
+      background-color: #ffde59;
+      color: #000;
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+
+    .start-button:hover {
+      background-color: #e0c700;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="countdown-container">
+    <h1>🥳🥳🧁🪅🎊🎊🪅🧁🥳🥳<br>🎆🎉!Nieuw jaar 2025!🎉🎆<br>🥳🥳🧁🪅🎊🎊🪅🧁🥳🥳</h1>
+    <div id="countdown">
+      <div class="time">
+        <span id="days">00</span>
+        <p>Days</p>
+      </div>
+      <div class="time">
+        <span id="hours">00</span>
+        <p>Hours</p>
+      </div>
+      <div class="time">
+        <span id="minutes">00</span>
+        <p>Minutes</p>
+      </div>
+      <div class="time">
+        <span id="seconds">00</span>
+        <p>Seconds</p>
+      </div>
+    </div>
+
+    <!-- Video for rickroll -->
+    <video id="celebrationVideo" src="rickroll.mp4" preload="auto" controls>
+      Your browser does not support the video tag.
+    </video>
+
+    <!-- Button to start the countdown -->
+    <button class="start-button" id="startButton">Start Countdown</button>
+  </div>
+
+  <script>
+    // Define the target date and time (January 1, 2025 at 00:00:00)
+    const newYearDate = new Date("January 1, 2025 00:00:00");
+
+    let countdownInterval;
+
+    // Function to start the countdown when the button is clicked
+    document.getElementById("startButton").addEventListener("click", function() {
+      // Hide the button after it's clicked
+      this.style.display = "none";
+
+      // Start the countdown
+      countdownInterval = setInterval(countdown, 1000); // Start the countdown immediately
+      countdown(); // Initial call to show the countdown immediately
+    });
+
+    // Countdown function
+    function countdown() {
+      const currentDate = new Date(); // Current time for each iteration
+      const timeDifference = newYearDate - currentDate;
+
+      if (timeDifference <= 0) {
+        const container = document.querySelector(".countdown-container");
+        const video = document.getElementById("celebrationVideo");
+
+        // Show "Happy New Year" message
+        container.querySelector("h1").innerHTML = `🎉 Happy New Year!!!!🎉 🎆`;
+
+        console.log("Countdown reached zero, showing video...");
+
+        // Make video visible when countdown ends
+        video.style.display = "block"; // Ensure the video is displayed
+
+        // Play the video
+        video.play().then(() => {
+          console.log("Video is playing!");
+        }).catch(error => {
+          console.error("Error playing video: ", error);
+        });
+
+        clearInterval(countdownInterval); // Stop the countdown after reaching zero
+        return;
+      }
+
+      const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+      // Update countdown values on the page
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+  </script>
+</body>
+</html>
